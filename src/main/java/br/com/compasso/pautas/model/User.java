@@ -1,5 +1,6 @@
 package br.com.compasso.pautas.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,11 +9,19 @@ import javax.persistence.Id;
 @Entity
 public class User {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 
 	private String name;
-	private String password;
+	private String AssociateRegistrationNumber;
+
+	
+	public User() {}
+	
+	public User(String name, String associateRegistrationNumber) {
+		this.name = name;
+		this.AssociateRegistrationNumber = associateRegistrationNumber;
+	}
 
 	public long getId() {
 		return id;
@@ -30,12 +39,12 @@ public class User {
 		this.name = name;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getAssociateRegistrationNumber() {
+		return AssociateRegistrationNumber;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setAssociateRegistrationNumber(String AssociateRegistrationNumber) {
+		this.AssociateRegistrationNumber = AssociateRegistrationNumber;
 	}
 
 }

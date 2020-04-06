@@ -8,6 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class PollSession {
@@ -15,15 +19,44 @@ public class PollSession {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private boolean isValid;
+	private boolean isOpenToVote;
 	
 	private LocalDateTime creationDate;
+	
+	private LocalDateTime finishDate;
+	
+	private Long DEFAULT_INTERVAL = 1000l;
+
 	private Set<Vote> votes;
 	
+	@OneToOne
 	private Poll poll;
 	
+	public PollSession(Long minutes) {
+		creationDate= LocalDateTime.now();
+		finishDate = creationDate.plusMinutes(Optional.ofNullable(minutes).orElse(DEFAULT_INTERVAL));
+	}
 	
-	
+	public PollSession(boolean isOpenToVote2, Poll poll2, LocalDateTime creationDate2, LocalDateTime finishDate2,
+			Set<Vote> votes2) {
+			this.creationDate =creationDate2;
+			this.finishDate =finishDate2;
+			this.isOpenToVote= isOpenToVote2;
+			this.poll =poll2;
+			this.votes =votes2;
+	}
+
+	public LocalDateTime getFinishDate() {
+		return finishDate;
+	}
+
+	public void setFinishDate(LocalDateTime finishDate) {
+		this.finishDate = finishDate;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public Poll getPoll() {
 		return poll;
@@ -57,12 +90,12 @@ public class PollSession {
 		this.votes = votes;
 	}
 
-	public boolean isValid() {
-		return isValid;
+	public boolean isOpenToVote() {
+		return isOpenToVote;
 	}
 
-	public void setValid(boolean isValid) {
-		this.isValid = isValid;
+	public void setOpenToVote(boolean isValid) {
+		this.isOpenToVote = isValid;
 	}
 	
 	public Long countYesVotes() {
@@ -84,5 +117,14 @@ public class PollSession {
 		 
 		 return count;
 	}
+	
+	public boolean addVote(Vote vote) {
+		
+		if(votes.add(vote))
+			return true;
+		else
+			return false;
+	}
+	
 
 }

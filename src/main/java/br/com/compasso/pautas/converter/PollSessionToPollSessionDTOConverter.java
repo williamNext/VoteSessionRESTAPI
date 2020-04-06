@@ -1,11 +1,9 @@
 package br.com.compasso.pautas.converter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.stereotype.Component;
 
 import br.com.compasso.pautas.controller.dto.PollSessionDto;
+import br.com.compasso.pautas.converter.builder.PollSessionDtoBuilder;
 import br.com.compasso.pautas.model.PollSession;
 
 @Component

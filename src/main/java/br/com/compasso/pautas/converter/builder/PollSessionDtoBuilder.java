@@ -1,4 +1,4 @@
-package br.com.compasso.pautas.converter;
+package br.com.compasso.pautas.converter.builder;
 
 import java.time.LocalDateTime;
 
