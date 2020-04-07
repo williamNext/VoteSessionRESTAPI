@@ -55,6 +55,11 @@ public class PollSessionService {
 
 	public boolean isOpenToVote(PollSession pollSession){
 			boolean isOpen = pollSession.getFinishDate().isBefore(LocalDateTime.now());
+			//
+			System.out.println(pollSession.getFinishDate());
+			System.out.println(LocalDateTime.now());
+			System.out.println(isOpen );
+			//
 			return isOpen;
 	}
 	

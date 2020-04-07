@@ -1,7 +1,7 @@
 package br.com.compasso.pautas.controller;
 
 import java.net.URI;
-import java.util.Optional;
+import java.util.List;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -41,9 +40,7 @@ public class UserController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<UserDto> saveUser(@RequestBody @Valid UserForm form,  UriComponentsBuilder uriBuilder) throws NotFoundException {
-		System.out.println(form.getName());
 		User user = form.convert();
-		
 		userRepository.save(user);
 		
 		URI uri = uriBuilder.path("/associate/{id}").buildAndExpand(user.getId()).toUri();
@@ -51,8 +48,8 @@ public class UserController {
 	}
 	
 	@GetMapping
-	@ResponseBody
-	public String haha() {
-		return "ok";
+	public ResponseEntity<List<UserDto>> getAllUsers() {
+		List<UserDto> allUsers = userService.getAll();
+		return ResponseEntity.ok(allUsers);
 	}
 }

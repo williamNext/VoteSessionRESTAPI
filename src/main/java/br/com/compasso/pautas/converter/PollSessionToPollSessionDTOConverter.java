@@ -14,9 +14,23 @@ public class PollSessionToPollSessionDTOConverter implements EntityToDtoConverte
 		 PollSessionDto pollSessionDto = new PollSessionDtoBuilder()
 										.setAllVotesCount(pollSession.getVotes().size())
 								 		.setCreationDate(pollSession.getCreationDate())
+								 		.setFinishDate(pollSession.getFinishDate())
 								 		.setNo_votesCount(pollSession.countNoVotes())
 								 		.setYes_VotesCount(pollSession.countYesVotes())
 								 		.setSubject(pollSession.getPoll().getSubject())
+								 		.setSubjectDescription(pollSession.getPoll().getDescription())
+								 		.build();
+		return pollSessionDto;
+	}
+	
+	public PollSessionDto convertToDTOonCreate(PollSession pollSession) {
+		 PollSessionDto pollSessionDto = new PollSessionDtoBuilder()
+								 		.setCreationDate(pollSession.getCreationDate())
+								 		.setFinishDate(pollSession.getFinishDate())
+								 		.setSubject(pollSession.getPoll().getSubject())
+								 		.setAllVotesCount(0)
+								 		.setNo_votesCount(0l)
+								 		.setYes_VotesCount(0l)
 								 		.setSubjectDescription(pollSession.getPoll().getDescription())
 								 		.build();
 		return pollSessionDto;

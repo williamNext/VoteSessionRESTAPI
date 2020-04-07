@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Vote {
@@ -18,8 +19,10 @@ public class Vote {
 	@Enumerated(EnumType.STRING)
 	private OptionVote optionVote;
 	
+	@OneToOne
 	private User user;
 	
+	public Vote(){}
 
 	public User getUser() {
 		return user;
@@ -29,11 +32,11 @@ public class Vote {
 		this.user = user;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -49,7 +52,6 @@ public class Vote {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((optionVote == null) ? 0 : optionVote.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
@@ -63,8 +65,6 @@ public class Vote {
 		if (getClass() != obj.getClass())
 			return false;
 		Vote other = (Vote) obj;
-		if (optionVote != other.optionVote)
-			return false;
 		if (user == null) {
 			if (other.user != null)
 				return false;
@@ -73,5 +73,6 @@ public class Vote {
 		return true;
 	}
 
+	
 	
 }

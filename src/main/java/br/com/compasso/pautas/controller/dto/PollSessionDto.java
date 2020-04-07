@@ -10,15 +10,26 @@ public class PollSessionDto {
 	private Integer yes_VotesCount;
 	private Integer no_votesCount;
 	private LocalDateTime creationDate;
+	private LocalDateTime finishDate;
+
 
 	public PollSessionDto(String subject, String subjectDescription, Integer allVotesCount, Integer yes_VotesCount,
-			Integer no_votesCount, LocalDateTime creationDate) {
+			Integer no_votesCount, LocalDateTime creationDate, LocalDateTime finishDate) {
 		this.subject = subject;
 		this.subjectDescription = subjectDescription;
 		this.allVotesCount = allVotesCount;
 		this.yes_VotesCount = yes_VotesCount;
 		this.no_votesCount = no_votesCount;
 		this.creationDate = creationDate;
+		this.finishDate =finishDate;
+	}
+
+	public LocalDateTime getFinishDate() {
+		return finishDate;
+	}
+
+	public void setFinishDate(LocalDateTime finishDate) {
+		this.finishDate = finishDate;
 	}
 
 	public String getSubject() {

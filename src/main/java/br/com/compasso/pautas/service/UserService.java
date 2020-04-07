@@ -1,5 +1,7 @@
 package br.com.compasso.pautas.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +22,16 @@ public class UserService {
 		
 	public Optional<UserDto> persistUser(User user){
 		userRepository.save(user);
-		
 		return Optional.of(toUserDto.convertToDTO(user));
-		}
+	}
+
+	public List<UserDto> getAll() {
+		List<User> findAll = userRepository.findAll();
+		List<UserDto> allUsersDto = new ArrayList<UserDto>();
+		
+		findAll.forEach(user->allUsersDto.add(toUserDto.convertToDTO(user)));
+		
+		return allUsersDto;
+	}
 	
 }

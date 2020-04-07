@@ -32,8 +32,7 @@ public class SessionPollBuilder {
 		this.id = id;
 		return this;
 	}
-is
-	}
+
 
 
 	public SessionPollBuilder setCreationDate(LocalDateTime creationDate) {

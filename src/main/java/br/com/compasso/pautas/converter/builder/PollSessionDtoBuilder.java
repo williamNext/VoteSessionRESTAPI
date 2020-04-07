@@ -11,6 +11,16 @@ public class PollSessionDtoBuilder {
 	private Integer yes_VotesCount;
 	private Integer no_votesCount;
 	private LocalDateTime creationDate;
+	private LocalDateTime finishDate;
+
+	public LocalDateTime getFinishDate() {
+		return finishDate;
+	}
+
+	public PollSessionDtoBuilder setFinishDate(LocalDateTime finishDate) {
+		this.finishDate = finishDate;
+		return this;
+	}
 
 	public PollSessionDtoBuilder setSubject(String subject) {
 		this.subject = subject;
@@ -23,17 +33,20 @@ public class PollSessionDtoBuilder {
 	}
 
 	public PollSessionDtoBuilder setAllVotesCount(Integer allVotesCount) {
-		this.allVotesCount = allVotesCount;
+		if (allVotesCount!=null)
+			this.allVotesCount = allVotesCount;
 		return this;
 	}
 
 	public PollSessionDtoBuilder setYes_VotesCount(Long yes_VotesCount) {
-		this.yes_VotesCount = yes_VotesCount.intValue();
+		if (yes_VotesCount!=null)
+			this.yes_VotesCount = yes_VotesCount.intValue();
 		return this;
 	}
 
 	public PollSessionDtoBuilder setNo_votesCount(Long no_votesCount) {
-		this.no_votesCount = no_votesCount.intValue();
+		if (no_votesCount!=null)	
+				this.no_votesCount = no_votesCount.intValue();
 		return this;
 	}
 
@@ -43,7 +56,7 @@ public class PollSessionDtoBuilder {
 	}
 	
 	public PollSessionDto build() {
-		return new PollSessionDto(subject, subjectDescription, allVotesCount, yes_VotesCount, no_votesCount, creationDate);
+		return new PollSessionDto(subject, subjectDescription, allVotesCount, yes_VotesCount, no_votesCount, creationDate,finishDate);
 	}
 
 }

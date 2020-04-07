@@ -15,17 +15,19 @@ public class Poll {
 
 	private String subject;
 	private String description;
+	
+	public Poll(){}
 
 	public Poll(@NotBlank String subject, @NotBlank String subjectDescription) {
 		this.subject =subject;
 		this.description = subjectDescription;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

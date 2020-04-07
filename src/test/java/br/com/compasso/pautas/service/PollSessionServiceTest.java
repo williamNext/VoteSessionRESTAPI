@@ -1,7 +1,12 @@
 package br.com.compasso.pautas.service;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.springframework.boot.devtools.autoconfigure.LocalDevToolsAutoConfiguration;
+
+import br.com.compasso.pautas.model.OptionVote;
 
 
 class PollSessionServiceTest {
@@ -9,17 +14,13 @@ class PollSessionServiceTest {
 
 		
 		public static void main(String[] args) {
-			 Set<String> set = new HashSet<String>();
+			 LocalDateTime local = LocalDateTime.now();
 			 
-			 set.add("a");
-			 set.add("b");
-			 
-			 if (set.add("a")) {
-				System.out.println("passa");
+			 System.out.println(local.isBefore(local.plusMinutes(4)));
 			}
 			 
-		}
 		
-	}
+		
+	
 
 }

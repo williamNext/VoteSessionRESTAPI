@@ -3,6 +3,8 @@ package br.com.compasso.pautas.form;
 import javax.validation.constraints.NotBlank;
 
 import br.com.compasso.pautas.model.Poll;
+import br.com.compasso.pautas.model.PollSession;
+import br.com.compasso.pautas.repository.PollRepository;
 
 public class PollSessionForm {
 	@NotBlank
@@ -36,9 +38,14 @@ public class PollSessionForm {
 		this.sessionDurationTime = sessionDurationTime;
 	}
 
-	public Poll converter() {
-		// TODO Auto-generated method stub
-		return new Poll(subject,subjectDescription);
+	public PollSession converter(PollRepository pollRepository) {
+		Poll poll = new Poll(subject,subjectDescription);
+		pollRepository.save(poll);
+		
+		PollSession pollSession = new PollSession(sessionDurationTime);
+		pollSession.setPoll(poll);
+		
+		return pollSession;
 	} 
 	
 	
