@@ -40,26 +40,20 @@ public class PollSessionService {
 		throw new NotFoundException("no polls found");
 	}
 	
-	public PollSessionDto getById(Long id){
-		Optional<PollSession> poll = pollSessionRepository.findById(id);
+	public PollSession getById(Long id){
+       Optional<PollSession> pollSession = pollSessionRepository.findById(id);
 		
-		 return poll.map(converter::convertToDTO).orElseThrow(NoSuchElementException::new);
+		if (!pollSession.isPresent()) 
+			throw new NoSuchElementException("no such poll for the given id");
+		
+		return pollSession.get();
 	}
 
-	public void openSession(Poll poll) {
-		PollSession pollSession = new PollSession(1000l);
-		pollSession.setPoll(poll);
-		
-	}
 	
 
 	public boolean isOpenToVote(PollSession pollSession){
 			boolean isOpen = pollSession.getFinishDate().isBefore(LocalDateTime.now());
-			//
-			System.out.println(pollSession.getFinishDate());
-			System.out.println(LocalDateTime.now());
-			System.out.println(isOpen );
-			//
+			
 			return isOpen;
 	}
 	

@@ -35,17 +35,23 @@ public class PollSessionController {
 	
     
     private final PollSessionRepository pollSessionRepository;
-    @Autowired
-    private PollRepository pollRepository;
-	
-	
-	@Autowired
-	private PollSessionToPollSessionDTOConverter pollSessionDtoConverter;
 
+    private final PollRepository pollRepository;
 	
-	public PollSessionController(PollSessionService pollSessionService,PollSessionRepository pollSessionRepository) {
-			this.pollSessionService=pollSessionService;
-			this.pollSessionRepository = pollSessionRepository;
+	
+	
+	private final PollSessionToPollSessionDTOConverter pollSessionDtoConverter;
+
+
+
+
+	public PollSessionController(PollSessionService pollSessionService,PollSessionRepository pollSessionRepository,
+				PollSessionToPollSessionDTOConverter pollSessionDtoConverter,
+				PollRepository pollRepository) {
+			this.pollRepository =pollRepository;
+			this.pollSessionDtoConverter =pollSessionDtoConverter;
+			this.pollSessionRepository =pollSessionRepository;
+			this.pollSessionService =pollSessionService;
 	}
 	
 	@PostMapping
@@ -74,11 +80,7 @@ public class PollSessionController {
 		return ResponseEntity.ok(pollSessionDtoConverter.convertToDTO(findById.get()));
 		
 	}
-	
-	
-	
-	
-	
+
 	
 	
 }

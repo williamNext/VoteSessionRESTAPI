@@ -2,8 +2,11 @@ package br.com.compasso.pautas.controller.dto;
 
 import java.time.LocalDateTime;
 
-public class PollSessionDto {
+import br.com.compasso.pautas.model.PollStatus;
 
+public class PollSessionDto {
+	
+	private Long id;
 	private String subject;
 	private String subjectDescription;
 	private Integer allVotesCount;
@@ -11,10 +14,11 @@ public class PollSessionDto {
 	private Integer no_votesCount;
 	private LocalDateTime creationDate;
 	private LocalDateTime finishDate;
+	private PollStatus pollStatus;
 
 
 	public PollSessionDto(String subject, String subjectDescription, Integer allVotesCount, Integer yes_VotesCount,
-			Integer no_votesCount, LocalDateTime creationDate, LocalDateTime finishDate) {
+			Integer no_votesCount, LocalDateTime creationDate, LocalDateTime finishDate, PollStatus pollStatus, Long id) {
 		this.subject = subject;
 		this.subjectDescription = subjectDescription;
 		this.allVotesCount = allVotesCount;
@@ -22,7 +26,30 @@ public class PollSessionDto {
 		this.no_votesCount = no_votesCount;
 		this.creationDate = creationDate;
 		this.finishDate =finishDate;
+		this.pollStatus = pollStatus;
+		this.id=id;
 	}
+	
+	
+	public Long getId() {
+		return id;
+	}
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
+	public PollStatus getPollStatus() {
+		return pollStatus;
+	}
+
+
+	public void setPollStatus(PollStatus pollStatus) {
+		this.pollStatus = pollStatus;
+	}
+
 
 	public LocalDateTime getFinishDate() {
 		return finishDate;

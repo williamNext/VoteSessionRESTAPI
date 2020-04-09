@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import br.com.compasso.pautas.controller.dto.PollSessionDto;
 import br.com.compasso.pautas.converter.builder.PollSessionDtoBuilder;
 import br.com.compasso.pautas.model.PollSession;
+import br.com.compasso.pautas.model.PollStatus;
 
 @Component
 public class PollSessionToPollSessionDTOConverter implements EntityToDtoConverter<PollSession,PollSessionDto>{
@@ -12,6 +13,7 @@ public class PollSessionToPollSessionDTOConverter implements EntityToDtoConverte
 	@Override
 	public PollSessionDto convertToDTO(PollSession pollSession) {
 		 PollSessionDto pollSessionDto = new PollSessionDtoBuilder()
+				 						.setId(pollSession.getId())
 										.setAllVotesCount(pollSession.getVotes().size())
 								 		.setCreationDate(pollSession.getCreationDate())
 								 		.setFinishDate(pollSession.getFinishDate())
@@ -19,12 +21,14 @@ public class PollSessionToPollSessionDTOConverter implements EntityToDtoConverte
 								 		.setYes_VotesCount(pollSession.countYesVotes())
 								 		.setSubject(pollSession.getPoll().getSubject())
 								 		.setSubjectDescription(pollSession.getPoll().getDescription())
+								 		.setPollStatus(pollSession.getStatus())
 								 		.build();
 		return pollSessionDto;
 	}
 	
 	public PollSessionDto convertToDTOonCreate(PollSession pollSession) {
 		 PollSessionDto pollSessionDto = new PollSessionDtoBuilder()
+				 						.setId(pollSession.getId())
 								 		.setCreationDate(pollSession.getCreationDate())
 								 		.setFinishDate(pollSession.getFinishDate())
 								 		.setSubject(pollSession.getPoll().getSubject())
@@ -32,6 +36,7 @@ public class PollSessionToPollSessionDTOConverter implements EntityToDtoConverte
 								 		.setNo_votesCount(0l)
 								 		.setYes_VotesCount(0l)
 								 		.setSubjectDescription(pollSession.getPoll().getDescription())
+								 		.setPollStatus(pollSession.getStatus())
 								 		.build();
 		return pollSessionDto;
 	}

@@ -5,6 +5,9 @@ import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,13 +18,12 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Proxy;
 
-import br.com.compasso.pautas.exception.UserNotPermited;
+import br.com.compasso.pautas.exception.UserNotPermitedException;
 import br.com.compasso.pautas.repository.UserRepository;
 import br.com.compasso.pautas.repository.VoteRepository;
 import br.com.compasso.pautas.service.VoteService;
 
 @Entity
-@Proxy(lazy=false) 
 public class PollSession {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,12 +31,14 @@ public class PollSession {
 	
 	private boolean isOpenToVote;
 	
-	private LocalDateTime creationDate;
+	private static final Long DEFAULT_INTERVAL = 1l;
+	private LocalDateTime creationDate = LocalDateTime.now();
+	private LocalDateTime finishDate = creationDate.plusMinutes(DEFAULT_INTERVAL);
 	
-	private LocalDateTime finishDate;
+	@Enumerated(EnumType.STRING)
+	private PollStatus status = PollStatus.OPEN;
 	
-	private Long DEFAULT_INTERVAL = 1000l;
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	private Set<Vote> votes;
 	
 	@OneToOne
@@ -43,10 +47,10 @@ public class PollSession {
 	public PollSession(){}
 	
 	public PollSession(Long minutes) {
-		creationDate= LocalDateTime.now();
-		finishDate = creationDate.plusMinutes(Optional.ofNullable(minutes).orElse(DEFAULT_INTERVAL));
-	}
-	
+		if(minutes>1)
+			finishDate = creationDate.plusMinutes(Optional.ofNullable(minutes).orElse(DEFAULT_INTERVAL));
+		}
+
 	public PollSession(boolean isOpenToVote2, Poll poll2, LocalDateTime creationDate2, LocalDateTime finishDate2,
 			Set<Vote> votes2) {
 			this.creationDate =creationDate2;
@@ -54,6 +58,16 @@ public class PollSession {
 			this.isOpenToVote= isOpenToVote2;
 			this.poll =poll2;
 			this.votes =votes2;
+				}
+	
+	
+
+	public PollStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(PollStatus status) {
+		this.status = status;
 	}
 
 	public LocalDateTime getFinishDate() {
@@ -131,7 +145,7 @@ public class PollSession {
 			voteRepository.save(vote);
 			return true;}
 		else
-			throw new UserNotPermited("this user already voted or not permited");
+			throw new UserNotPermitedException("this user already voted or is not permited");
 	}
 	
 

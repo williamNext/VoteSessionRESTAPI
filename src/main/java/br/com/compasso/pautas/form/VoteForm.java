@@ -9,6 +9,8 @@ import org.hibernate.validator.constraints.Length;
 
 import com.sun.istack.NotNull;
 
+import br.com.compasso.pautas.model.OptionVote;
+
 public class VoteForm {
 	@NotNull @DecimalMin(value = "1")
 	private Long userId;
@@ -16,8 +18,8 @@ public class VoteForm {
 	@NotNull @DecimalMin(value = "1")
 	private Long pollId;
 	
-	@NotBlank
-	private String userVote;
+
+	private OptionVote userVote;
 
 	public long getUserId() {
 		return userId;
@@ -27,7 +29,7 @@ public class VoteForm {
 		return pollId;
 	}
 
-	public String getUserVote() {
+	public OptionVote getUserVote() {
 		return userVote;
 	}
 

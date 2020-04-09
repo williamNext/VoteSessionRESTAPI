@@ -1,7 +1,5 @@
 package br.com.compasso.pautas.controller;
 
-import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -10,8 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.compasso.pautas.converter.VoteToVoteDto;
 import br.com.compasso.pautas.form.VoteForm;
 import br.com.compasso.pautas.model.PollSession;
+import br.com.compasso.pautas.model.Vote;
 import br.com.compasso.pautas.repository.PollSessionRepository;
 import br.com.compasso.pautas.service.PollSessionService;
 import br.com.compasso.pautas.service.VoteService;
@@ -24,30 +24,35 @@ public class VoteController {
 	private final PollSessionService pollSessionService;
 	private final PollSessionRepository pollSessionRepository;
 	private final VoteService voteService;
+	private final VoteToVoteDto toVoteDto;
 
 	
 	
 	public VoteController(PollSessionService pollSessionService, PollSessionRepository pollSessionRepository,
-			VoteService voteService) {
+			VoteService voteService,VoteToVoteDto toVoteDto) {
 		this.pollSessionService = pollSessionService;
 		this.pollSessionRepository = pollSessionRepository;
 		this.voteService = voteService;
+		this.toVoteDto = toVoteDto;
 	}
 
 
 
 	@PostMapping
 	public ResponseEntity<?> vote(@RequestBody @Valid VoteForm form) throws NotFoundException {
-		Optional<PollSession> pollSession = pollSessionRepository.findById(form.getPollId());
-		
+		PollSession pollSession = pollSessionService.getById(form.getPollId());
 		
 		voteService.validateSession(pollSession, pollSessionService);
-		PollSession pollsessionVoted = voteService.tryToVote(pollSession.get(),form);
+		
+		Vote vote = voteService.createVote(form); 
+		PollSession pollsessionVoted = voteService.tryToVote(pollSession,vote);
 		
 		pollSessionRepository.save(pollsessionVoted);
 		
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(toVoteDto.convertToDTO(vote));
 	}
+
+
 	
 	
 	

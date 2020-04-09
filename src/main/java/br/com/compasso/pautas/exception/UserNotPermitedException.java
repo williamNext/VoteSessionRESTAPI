@@ -1,10 +1,10 @@
 package br.com.compasso.pautas.exception;
 
-public class UserNotPermited extends RuntimeException{
+public class UserNotPermitedException extends RuntimeException{
 
 	private static final long serialVersionUID = 1L;
 	
-	public UserNotPermited(String message) {
+	public UserNotPermitedException(String message) {
 		super(message);
 	}
 }
