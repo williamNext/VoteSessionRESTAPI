@@ -46,7 +46,7 @@ public class UserController {
 		URI uri = uriBuilder.path("/associate/{id}").buildAndExpand(user.getId()).toUri();
 		return ResponseEntity.created(uri).body(userToUserDto.convertToDTO(user));	
 	}
-	
+
 	@GetMapping
 	public ResponseEntity<List<UserDto>> getAllUsers() {
 		List<UserDto> allUsers = userService.getAll();

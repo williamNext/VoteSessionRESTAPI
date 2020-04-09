@@ -8,8 +8,6 @@ public class VoteDto {
 	private String userName;
 	
 	
-	
-	
 	public VoteDto(Long userId, OptionVote vote, String userName) {
 		super();
 		this.userId = userId;

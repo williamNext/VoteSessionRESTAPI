@@ -6,13 +6,10 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import br.com.compasso.pautas.controller.dto.PollSessionDto;
 import br.com.compasso.pautas.converter.PollSessionToPollSessionDTOConverter;
-import br.com.compasso.pautas.model.Poll;
 import br.com.compasso.pautas.model.PollSession;
 import br.com.compasso.pautas.repository.PollSessionRepository;
 import javassist.NotFoundException;
@@ -20,13 +17,16 @@ import javassist.NotFoundException;
 @Service
 public class PollSessionService {
 	
-	private static final long DEFAULT_TIME_SESSION= 1000;
-	@Autowired
-	private PollSessionRepository pollSessionRepository;
+	private final PollSessionRepository pollSessionRepository;
 	
-	@Autowired
-	private PollSessionToPollSessionDTOConverter converter;
+	private final PollSessionToPollSessionDTOConverter converter;
 	
+	public PollSessionService(PollSessionRepository pollSessionRepository,
+			PollSessionToPollSessionDTOConverter converter) {
+		this.pollSessionRepository = pollSessionRepository;
+		this.converter = converter;
+	}
+
 	public List<PollSessionDto> getAll() throws NotFoundException {	
 		List<PollSession> allPolls = pollSessionRepository.findAll();
 		
@@ -39,6 +39,7 @@ public class PollSessionService {
 		
 		throw new NotFoundException("no polls found");
 	}
+	
 	
 	public PollSession getById(Long id){
        Optional<PollSession> pollSession = pollSessionRepository.findById(id);
@@ -53,7 +54,6 @@ public class PollSessionService {
 
 	public boolean isOpenToVote(PollSession pollSession){
 			boolean isOpen = pollSession.getFinishDate().isBefore(LocalDateTime.now());
-			
 			return isOpen;
 	}
 	

@@ -6,7 +6,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -23,6 +22,14 @@ public class Vote {
 	private User user;
 	
 	public Vote(){}
+	
+	
+	public Vote(Long id, OptionVote optionVote, User user) {
+		this.id = id;
+		this.optionVote = optionVote;
+		this.user = user;
+	}
+
 
 	public User getUser() {
 		return user;

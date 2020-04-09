@@ -52,7 +52,6 @@ public class VoteController {
 		return ResponseEntity.ok(toVoteDto.convertToDTO(vote));
 	}
 
-
 	
 	
 	

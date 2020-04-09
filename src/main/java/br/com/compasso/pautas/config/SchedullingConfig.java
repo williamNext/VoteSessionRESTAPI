@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import br.com.compasso.pautas.model.PollSession;
 import br.com.compasso.pautas.model.PollStatus;
@@ -40,6 +39,6 @@ public class SchedullingConfig {
 				pollSessionRepository.save(poll);
 			});
 		
-		
+	
 	}
 }

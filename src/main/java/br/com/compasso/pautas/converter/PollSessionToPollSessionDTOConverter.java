@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import br.com.compasso.pautas.controller.dto.PollSessionDto;
 import br.com.compasso.pautas.converter.builder.PollSessionDtoBuilder;
 import br.com.compasso.pautas.model.PollSession;
-import br.com.compasso.pautas.model.PollStatus;
 
 @Component
 public class PollSessionToPollSessionDTOConverter implements EntityToDtoConverter<PollSession,PollSessionDto>{
@@ -25,7 +24,7 @@ public class PollSessionToPollSessionDTOConverter implements EntityToDtoConverte
 								 		.build();
 		return pollSessionDto;
 	}
-	
+
 	public PollSessionDto convertToDTOonCreate(PollSession pollSession) {
 		 PollSessionDto pollSessionDto = new PollSessionDtoBuilder()
 				 						.setId(pollSession.getId())

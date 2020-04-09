@@ -22,7 +22,7 @@ public class PollSessionDtoBuilder {
 		this.id = id;
 		return this;
 	}
-
+	
 	public PollStatus getPollStatus() {
 		return pollStatus;
 	}
