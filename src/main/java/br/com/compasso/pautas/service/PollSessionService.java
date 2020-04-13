@@ -58,4 +58,9 @@ public class PollSessionService {
 	}
 	
 	
+	public void savePoll(PollSession pollSession) {
+		pollSessionRepository.save(pollSession);	
+	}
+	
+	
 }

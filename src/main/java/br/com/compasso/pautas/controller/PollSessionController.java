@@ -2,8 +2,6 @@ package br.com.compasso.pautas.controller;
 
 import java.net.URI;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -22,7 +20,6 @@ import br.com.compasso.pautas.converter.PollSessionToPollSessionDTOConverter;
 import br.com.compasso.pautas.form.PollSessionForm;
 import br.com.compasso.pautas.model.PollSession;
 import br.com.compasso.pautas.repository.PollRepository;
-import br.com.compasso.pautas.repository.PollSessionRepository;
 import br.com.compasso.pautas.service.PollSessionService;
 import javassist.NotFoundException;
 
@@ -33,7 +30,6 @@ public class PollSessionController {
 	private final PollSessionService pollSessionService;
 	
     
-    private final PollSessionRepository pollSessionRepository;
 
     private final PollRepository pollRepository;
 	
@@ -44,12 +40,11 @@ public class PollSessionController {
 
 
 
-	public PollSessionController(PollSessionService pollSessionService,PollSessionRepository pollSessionRepository,
+	public PollSessionController(PollSessionService pollSessionService,
 				PollSessionToPollSessionDTOConverter pollSessionDtoConverter,
 				PollRepository pollRepository) {
 			this.pollRepository =pollRepository;
 			this.pollSessionDtoConverter =pollSessionDtoConverter;
-			this.pollSessionRepository =pollSessionRepository;
 			this.pollSessionService =pollSessionService;
 	}
 	
@@ -57,8 +52,7 @@ public class PollSessionController {
 	@Transactional
 	public ResponseEntity<?> createPoll( @RequestBody @Valid PollSessionForm form,  UriComponentsBuilder uriBuilder){
 		PollSession pollSession = form.converter(pollRepository);
-		pollSessionRepository.save(pollSession);
-		
+		pollSessionService.savePoll(pollSession);		
 		URI uri = uriBuilder.path("/pollSession/{id}").buildAndExpand(pollSession.getId()).toUri();
 		return ResponseEntity.created(uri).body(pollSessionDtoConverter.convertToDTOonCreate(pollSession));	
 		
@@ -72,11 +66,9 @@ public class PollSessionController {
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<PollSessionDto> getOne(@PathVariable Long id) {
-		Optional<PollSession> findById = pollSessionRepository.findById(id);
-		if (!findById.isPresent()) 
-			throw new NoSuchElementException("No Such Poll Session for the given id");
+		PollSession sessionById = pollSessionService.getById(id);
 
-		return ResponseEntity.ok(pollSessionDtoConverter.convertToDTO(findById.get()));
+		return ResponseEntity.ok(pollSessionDtoConverter.convertToDTO(sessionById));
 		
 	}
 

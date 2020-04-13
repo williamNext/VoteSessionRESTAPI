@@ -18,7 +18,6 @@ import br.com.compasso.pautas.controller.dto.UserDto;
 import br.com.compasso.pautas.converter.UserToUserDto;
 import br.com.compasso.pautas.form.UserForm;
 import br.com.compasso.pautas.model.User;
-import br.com.compasso.pautas.repository.UserRepository;
 import br.com.compasso.pautas.service.UserService;
 import javassist.NotFoundException;
 
@@ -27,13 +26,11 @@ import javassist.NotFoundException;
 public class UserController {
 	
 	private final UserService userService;
-	private final UserRepository userRepository;
 	private UserToUserDto userToUserDto;
 	
 	
-	public UserController(UserService userService, UserRepository userRepository, UserToUserDto userToUserDto) {
+	public UserController(UserService userService, UserToUserDto userToUserDto) {
 		this.userService = userService;
-		this.userRepository = userRepository;
 		this.userToUserDto =userToUserDto;
 	}
 	
@@ -41,7 +38,7 @@ public class UserController {
 	@Transactional
 	public ResponseEntity<UserDto> saveUser(@RequestBody @Valid UserForm form,  UriComponentsBuilder uriBuilder) throws NotFoundException {
 		User user = form.convert();
-		userRepository.save(user);
+		userService.save(user);
 		
 		URI uri = uriBuilder.path("/associate/{id}").buildAndExpand(user.getId()).toUri();
 		return ResponseEntity.created(uri).body(userToUserDto.convertToDTO(user));	
