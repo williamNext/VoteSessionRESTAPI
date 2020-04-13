@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.compasso.pautas.controller.dto.VoteDto;
 import br.com.compasso.pautas.converter.VoteToVoteDto;
 import br.com.compasso.pautas.form.VoteForm;
 import br.com.compasso.pautas.model.PollSession;
@@ -39,7 +40,7 @@ public class VoteController {
 
 
 	@PostMapping
-	public ResponseEntity<?> vote(@RequestBody @Valid VoteForm form) throws NotFoundException {
+	public ResponseEntity<VoteDto> vote(@RequestBody @Valid VoteForm form) throws NotFoundException {
 		PollSession pollSession = pollSessionService.getById(form.getPollId());
 		
 		voteService.validateSession(pollSession, pollSessionService);

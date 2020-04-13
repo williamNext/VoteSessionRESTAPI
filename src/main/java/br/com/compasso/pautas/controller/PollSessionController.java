@@ -41,8 +41,9 @@ public class PollSessionController {
 
 
 	public PollSessionController(PollSessionService pollSessionService,
-				PollSessionToPollSessionDTOConverter pollSessionDtoConverter,
-				PollRepository pollRepository) {
+			PollSessionToPollSessionDTOConverter pollSessionDtoConverter,
+			PollRepository pollRepository) {
+		
 			this.pollRepository =pollRepository;
 			this.pollSessionDtoConverter =pollSessionDtoConverter;
 			this.pollSessionService =pollSessionService;
@@ -50,7 +51,7 @@ public class PollSessionController {
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<?> createPoll( @RequestBody @Valid PollSessionForm form,  UriComponentsBuilder uriBuilder){
+	public ResponseEntity<PollSessionDto> createPoll( @RequestBody @Valid PollSessionForm form,  UriComponentsBuilder uriBuilder){
 		PollSession pollSession = form.converter(pollRepository);
 		pollSessionService.savePoll(pollSession);		
 		URI uri = uriBuilder.path("/pollSession/{id}").buildAndExpand(pollSession.getId()).toUri();
