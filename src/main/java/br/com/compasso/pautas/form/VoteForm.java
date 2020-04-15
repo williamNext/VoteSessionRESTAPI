@@ -13,6 +13,7 @@ public class VoteForm {
 	@NotNull @DecimalMin(value = "1")
 	private Long pollId;
 	
+	@NotNull
 	private OptionVote userVote;
 
 	public long getUserId() {
