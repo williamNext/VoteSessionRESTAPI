@@ -54,6 +54,7 @@ public class PollSessionController {
 	public ResponseEntity<PollSessionDto> createPoll( @RequestBody @Valid PollSessionForm form,  UriComponentsBuilder uriBuilder){
 		PollSession pollSession = form.converter(pollRepository);
 		pollSessionService.savePoll(pollSession);		
+		
 		URI uri = uriBuilder.path("/pollSession/{id}").buildAndExpand(pollSession.getId()).toUri();
 		return ResponseEntity.created(uri).body(pollSessionDtoConverter.convertToDTOonCreate(pollSession));	
 		

@@ -3,13 +3,13 @@ package br.com.compasso.pautas.controller.dto;
 public class UserDto {
 	
 	private String name;
-	private String AssociateRegistrationNumber;
+	private String associateRegistrationNumber;
 	
 	
 	
 	public UserDto(String name, String associateRegistrationNumber) {
 		this.name = name;
-		AssociateRegistrationNumber = associateRegistrationNumber;
+		this.associateRegistrationNumber = associateRegistrationNumber;
 	}
 	public String getName() {
 		return name;
@@ -18,16 +18,16 @@ public class UserDto {
 		this.name = name;
 	}
 	public String getAssociateRegistrationNumber() {
-		return AssociateRegistrationNumber;
+		return associateRegistrationNumber;
 	}
 	public void setAssociateRegistrationNumber(String associateRegistrationNumber) {
-		AssociateRegistrationNumber = associateRegistrationNumber;
+		this.associateRegistrationNumber = associateRegistrationNumber;
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((AssociateRegistrationNumber == null) ? 0 : AssociateRegistrationNumber.hashCode());
+		result = prime * result + ((associateRegistrationNumber == null) ? 0 : associateRegistrationNumber.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -40,10 +40,10 @@ public class UserDto {
 		if (getClass() != obj.getClass())
 			return false;
 		UserDto other = (UserDto) obj;
-		if (AssociateRegistrationNumber == null) {
-			if (other.AssociateRegistrationNumber != null)
+		if (associateRegistrationNumber == null) {
+			if (other.associateRegistrationNumber != null)
 				return false;
-		} else if (!AssociateRegistrationNumber.equals(other.AssociateRegistrationNumber))
+		} else if (!associateRegistrationNumber.equals(other.associateRegistrationNumber))
 			return false;
 		if (name == null) {
 			if (other.name != null)
