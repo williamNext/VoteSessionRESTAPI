@@ -28,4 +28,17 @@ public class VoteForm {
 		return userVote;
 	}
 
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public void setPollId(Long pollId) {
+		this.pollId = pollId;
+	}
+
+	public void setUserVote(OptionVote userVote) {
+		this.userVote = userVote;
+	}
+
+	
 }
