@@ -24,9 +24,7 @@ public class VoteService {
 
 	
     public PollSession tryToVote(PollSession pollSession, Vote vote) {
-    		
     	pollSession.addVote(vote,voteRepository);
-    		
     	return pollSession;
     }
     

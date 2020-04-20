@@ -47,20 +47,16 @@ class UserServiceTest {
 			entryList.add(user);
 		}
 		
-		ArrayList<UserDto> expectReturn = new ArrayList<UserDto>();
-		for (int i = 0; i < 10; i++) {
-			UserDto userDto = new UserDto("user"+i, "000000");
-			expectReturn.add(userDto);
-		}
+	
 		
 		when(userRepository.findAll()).thenReturn(entryList);
 		
 		when(toUserDto.convertToDTO(any(User.class))).thenCallRealMethod();
 		
-		List<UserDto> realResultList = userService.getAll();
+		List<User> realResultList = userService.getAll();
 		
-		assertEquals(expectReturn, realResultList);
-		assertEquals(expectReturn.size(), realResultList.size());
+		assertEquals(entryList, realResultList);
+		assertEquals(entryList.size(), realResultList.size());
 	}
 	
 	

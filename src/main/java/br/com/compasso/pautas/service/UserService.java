@@ -1,36 +1,25 @@
 package br.com.compasso.pautas.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.compasso.pautas.controller.dto.UserDto;
-import br.com.compasso.pautas.converter.UserToUserDto;
 import br.com.compasso.pautas.model.User;
 import br.com.compasso.pautas.repository.UserRepository;
+
 @Service
 public class UserService {
-	
-	@Autowired
-	private UserToUserDto toUserDto;
-	
+
 	@Autowired
 	private UserRepository userRepository;
-		
 
-	public List<UserDto> getAll() {
-		List<User> findAll = userRepository.findAll();
-		List<UserDto> allUsersDto = new ArrayList<UserDto>();
-		
-		findAll.forEach(user->allUsersDto.add(toUserDto.convertToDTO(user)));
-		
-		return allUsersDto;
+	public List<User> getAll() {
+		return userRepository.findAll();
 	}
 
 	public void save(User user) {
 		userRepository.save(user);
 	}
-	
+
 }

@@ -2,6 +2,7 @@ package br.com.compasso.pautas.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -29,23 +30,16 @@ public class PollSessionController {
 	
 	private final PollSessionService pollSessionService;
 	
-    
-
     private final PollRepository pollRepository;
 	
-	
-	
-	private final PollSessionToPollSessionDTOConverter pollSessionDtoConverter;
-
-
-
+	private final  PollSessionToPollSessionDTOConverter converter;
 
 	public PollSessionController(PollSessionService pollSessionService,
 			PollSessionToPollSessionDTOConverter pollSessionDtoConverter,
 			PollRepository pollRepository) {
 		
 			this.pollRepository =pollRepository;
-			this.pollSessionDtoConverter =pollSessionDtoConverter;
+			this.converter =pollSessionDtoConverter;
 			this.pollSessionService =pollSessionService;
 	}
 	
@@ -56,21 +50,21 @@ public class PollSessionController {
 		pollSessionService.savePoll(pollSession);		
 		
 		URI uri = uriBuilder.path("/pollSession/{id}").buildAndExpand(pollSession.getId()).toUri();
-		return ResponseEntity.created(uri).body(pollSessionDtoConverter.convertToDTOonCreate(pollSession));	
+		return ResponseEntity.created(uri).body(converter.convertToDTOonCreate(pollSession));	
 		
 	}
 	
 	@GetMapping
 	public ResponseEntity<List<PollSessionDto>> getAllPolls() throws NotFoundException {
-		List<PollSessionDto> all = pollSessionService.getAll();
-		return ResponseEntity.ok(all);	
+		List<PollSession> all = pollSessionService.getAll();
+		return ResponseEntity.ok(all.stream().map(converter::convertToDTO).collect(Collectors.toList()));	
 	}
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<PollSessionDto> getOne(@PathVariable Long id) {
 		PollSession sessionById = pollSessionService.getById(id);
 
-		return ResponseEntity.ok(pollSessionDtoConverter.convertToDTO(sessionById));
+		return ResponseEntity.ok(converter.convertToDTO(sessionById));
 		
 	}
 

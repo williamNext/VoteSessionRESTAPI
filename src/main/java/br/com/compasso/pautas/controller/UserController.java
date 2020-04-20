@@ -2,6 +2,7 @@ package br.com.compasso.pautas.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.compasso.pautas.controller.dto.UserDto;
+import br.com.compasso.pautas.converter.EntityToDtoConverter;
 import br.com.compasso.pautas.converter.UserToUserDto;
 import br.com.compasso.pautas.form.UserForm;
 import br.com.compasso.pautas.model.User;
@@ -26,12 +28,12 @@ import javassist.NotFoundException;
 public class UserController {
 	
 	private final UserService userService;
-	private UserToUserDto userToUserDto;
+	private EntityToDtoConverter<User, UserDto> converter;
 	
 	
 	public UserController(UserService userService, UserToUserDto userToUserDto) {
 		this.userService = userService;
-		this.userToUserDto =userToUserDto;
+		this.converter =userToUserDto;
 	}
 	
 	@PostMapping
@@ -41,12 +43,12 @@ public class UserController {
 		userService.save(user);
 		
 		URI uri = uriBuilder.path("/associate/{id}").buildAndExpand(user.getId()).toUri();
-		return ResponseEntity.created(uri).body(userToUserDto.convertToDTO(user));	
+		return ResponseEntity.created(uri).body(converter.convertToDTO(user));	
 	}
 
 	@GetMapping
 	public ResponseEntity<List<UserDto>> getAllUsers() {
-		List<UserDto> allUsers = userService.getAll();
-		return ResponseEntity.ok(allUsers);
+		List<User> allUsers = userService.getAll();
+		return ResponseEntity.ok(allUsers.stream().map(converter::convertToDTO).collect(Collectors.toList()));
 	}
 }

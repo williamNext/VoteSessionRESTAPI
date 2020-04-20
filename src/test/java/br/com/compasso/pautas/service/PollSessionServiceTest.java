@@ -54,27 +54,13 @@ class PollSessionServiceTest {
 			
 			List<PollSession> simulacrum= Arrays.asList(pollSession,pollSession,pollSession,pollSession);
 			
-			PollSessionDto pollSessionDtoReturn = new PollSessionDto(pollSession.getPoll().getSubject(), 
-																pollSession.getPoll().getDescription(),
-																pollSession.getVotes().size(), 
-																pollSession.countYesVotes().intValue(), 
-																pollSession.countNoVotes().intValue(), 
-																pollSession.getCreationDate(),
-																pollSession.getFinishDate(), 
-																pollSession.getStatus(),
-																pollSession.getId());
-			
-			List<PollSessionDto> expectedList = Arrays.asList(pollSessionDtoReturn,pollSessionDtoReturn,pollSessionDtoReturn,pollSessionDtoReturn);
-			
-			
 			when(pollSessionRepository.findAll()).thenReturn(simulacrum);
-			when(pollSessionToPollSessionDto.convertToDTO(Mockito.any(PollSession.class))).thenReturn(pollSessionDtoReturn);
 			
-			List<PollSessionDto> realList = pollsessionService.getAll();
-			
+			List<PollSession> realList = pollsessionService.getAll();
 			
 			
-			assertEquals(expectedList, realList);
+			
+			assertEquals(simulacrum, realList);
 			
 				
 		}

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.compasso.pautas.controller.dto.VoteDto;
+import br.com.compasso.pautas.converter.EntityToDtoConverter;
 import br.com.compasso.pautas.converter.VoteToVoteDto;
 import br.com.compasso.pautas.form.VoteForm;
 import br.com.compasso.pautas.model.PollSession;
@@ -23,15 +24,13 @@ public class VoteController {
 
 	private final PollSessionService pollSessionService;
 	private final VoteService voteService;
-	private final VoteToVoteDto toVoteDto;
+	private final EntityToDtoConverter<Vote, VoteDto> converter;
 
-	
-	
 	public VoteController(PollSessionService pollSessionService,
 			VoteService voteService,VoteToVoteDto toVoteDto) {
 		this.pollSessionService = pollSessionService;
 		this.voteService = voteService;
-		this.toVoteDto = toVoteDto;
+		this.converter = toVoteDto;
 	}
 
 
@@ -47,7 +46,7 @@ public class VoteController {
 		
 		pollSessionService.savePoll(pollsessionVoted);;
 		
-		return ResponseEntity.ok(toVoteDto.convertToDTO(vote));
+		return ResponseEntity.ok(converter.convertToDTO(vote));
 	}
 
 	
