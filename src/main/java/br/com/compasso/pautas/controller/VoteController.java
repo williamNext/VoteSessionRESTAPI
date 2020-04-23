@@ -16,6 +16,9 @@ import br.com.compasso.pautas.model.PollSession;
 import br.com.compasso.pautas.model.Vote;
 import br.com.compasso.pautas.service.PollSessionService;
 import br.com.compasso.pautas.service.VoteService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import javassist.NotFoundException;
 
 @RestController
@@ -33,8 +36,11 @@ public class VoteController {
 		this.converter = toVoteDto;
 	}
 
-
-
+	@ApiOperation(value = "Try to vote to in a Poll",notes = "sends a vote to a determined poll Session")
+	@ApiResponses(
+			value = {
+					@ApiResponse(code = 200, message = "vote registered sucessfully")
+			})
 	@PostMapping
 	public ResponseEntity<VoteDto> vote(@RequestBody @Valid VoteForm form) throws NotFoundException {
 		PollSession pollSession = pollSessionService.getById(form.getPollId());

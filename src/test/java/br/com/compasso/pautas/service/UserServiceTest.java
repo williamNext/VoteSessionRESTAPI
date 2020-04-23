@@ -15,7 +15,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import br.com.compasso.pautas.controller.dto.UserDto;
 import br.com.compasso.pautas.converter.UserToUserDto;
 import br.com.compasso.pautas.model.User;
 import br.com.compasso.pautas.repository.UserRepository;

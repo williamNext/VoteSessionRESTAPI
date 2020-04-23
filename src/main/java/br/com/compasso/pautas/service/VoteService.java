@@ -30,7 +30,7 @@ public class VoteService {
     
 	public Vote createVote(VoteForm form) {
 		Optional<User> user = userRepository.findById(form.getUserId());
-		
+			
 		if(!user.isPresent()) {
 			throw new NoSuchElementException("No such user for the given id");
 		}

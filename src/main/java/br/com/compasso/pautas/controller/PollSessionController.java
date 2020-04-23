@@ -22,6 +22,7 @@ import br.com.compasso.pautas.form.PollSessionForm;
 import br.com.compasso.pautas.model.PollSession;
 import br.com.compasso.pautas.repository.PollRepository;
 import br.com.compasso.pautas.service.PollSessionService;
+import io.swagger.annotations.ApiOperation;
 import javassist.NotFoundException;
 
 @RestController
@@ -43,6 +44,8 @@ public class PollSessionController {
 			this.pollSessionService =pollSessionService;
 	}
 	
+	
+	@ApiOperation(value = "Create a poll and opens a session for it that remains open for votes within the specified time (default time= 1m)")
 	@PostMapping
 	@Transactional
 	public ResponseEntity<PollSessionDto> createPoll( @RequestBody @Valid PollSessionForm form,  UriComponentsBuilder uriBuilder){
@@ -51,21 +54,20 @@ public class PollSessionController {
 		
 		URI uri = uriBuilder.path("/pollSession/{id}").buildAndExpand(pollSession.getId()).toUri();
 		return ResponseEntity.created(uri).body(converter.convertToDTOonCreate(pollSession));	
-		
 	}
 	
+	@ApiOperation(value = "returns all Poll Sessions")
 	@GetMapping
 	public ResponseEntity<List<PollSessionDto>> getAllPolls() throws NotFoundException {
 		List<PollSession> all = pollSessionService.getAll();
 		return ResponseEntity.ok(all.stream().map(converter::convertToDTO).collect(Collectors.toList()));	
 	}
 	
+	@ApiOperation(value = "return one poll session given the id")
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<PollSessionDto> getOne(@PathVariable Long id) {
 		PollSession sessionById = pollSessionService.getById(id);
-
 		return ResponseEntity.ok(converter.convertToDTO(sessionById));
-		
 	}
 
 	

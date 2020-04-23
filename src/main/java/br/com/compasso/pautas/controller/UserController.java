@@ -21,6 +21,9 @@ import br.com.compasso.pautas.converter.UserToUserDto;
 import br.com.compasso.pautas.form.UserForm;
 import br.com.compasso.pautas.model.User;
 import br.com.compasso.pautas.service.UserService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import javassist.NotFoundException;
 
 @RestController
@@ -38,6 +41,8 @@ public class UserController {
 	
 	@PostMapping
 	@Transactional
+	@ApiOperation(value = "Create a new user")
+	@ApiResponses(value = {@ApiResponse(code =201, message = "user created with sucess")})
 	public ResponseEntity<UserDto> saveUser(@RequestBody @Valid UserForm form,  UriComponentsBuilder uriBuilder) throws NotFoundException {
 		User user = form.convert();
 		userService.save(user);
@@ -45,7 +50,9 @@ public class UserController {
 		URI uri = uriBuilder.path("/associate/{id}").buildAndExpand(user.getId()).toUri();
 		return ResponseEntity.created(uri).body(converter.convertToDTO(user));	
 	}
-
+	
+	
+	@ApiOperation(value = "return all associates")
 	@GetMapping
 	public ResponseEntity<List<UserDto>> getAllUsers() {
 		List<User> allUsers = userService.getAll();
